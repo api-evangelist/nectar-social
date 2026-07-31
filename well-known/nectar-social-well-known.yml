@@ -1,0 +1,19 @@
+generated: '2026-07-20'
+method: searched
+host: https://www.nectarsocial.com
+documents:
+- path: /.well-known/security.txt
+  status: 200
+  file: nectar-social-security.txt
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  status: 404
+- path: /.well-known/api-catalog
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+notes: >-
+  app.nectarsocial.com returns HTTP 200 for /.well-known/openid-configuration and
+  /oauth-authorization-server, but the body is the single-page-app HTML shell
+  (soft 404), not a real OIDC/OAuth metadata document, so they are not indexed.

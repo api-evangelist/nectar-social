@@ -1,0 +1,16 @@
+# Nectar Social
+> Nectar is an AI-powered social OS that helps brands manage community engagement, social listening, influencer tracking, and commerce attribution.
+
+## About
+Nectar is the AI-powered social teammate for modern brands. Founded in 2023, Nectar helps D2C and enterprise brands turn social engagement into measurable revenue.
+
+## Key Features
+- Community Management: AI-powered response management across Instagram, TikTok, and X
+- Social Listening: Real-time cross-channel monitoring and competitor tracking
+- Performance Analytics: KPI dashboards, post-level insights, and attribution
+- Influencer Tracking: Unified creator data hub and workflow management
+
+## Contact
+- Website: https://nectarsocial.com
+- Email: hello@nectarsocial.com
+- Demo: https://nectarsocial.com/book-a-demo

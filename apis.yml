@@ -1,9 +1,29 @@
 aid: nectar-social
 name: Nectar Social
-description: 'Nectar Social is a company surfaced as a portfolio company of gv, menlo-ventures, true-ventures
-  and added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Nectar Social is an AI "social operating system" for consumer brands — an
+  AI-powered social teammate that manages online communities, performs real-time
+  social listening and sentiment analysis, tracks influencers, and turns organic
+  social engagement and DM conversations into measurable revenue across community,
+  brand safety, commerce, influencer, social-selling, and analytics use cases.
+  Founded in 2023 by Misbah and Farah Uraizee and based in Bellevue, Washington,
+  the company raised $30M from Menlo Ventures, GV (Google Ventures), and True
+  Ventures. Added to the API Evangelist network as a company profile; as of this
+  enrichment pass Nectar Social ships a SaaS web application (app.nectarsocial.com)
+  but does not publish a public API, developer portal, OpenAPI, or SDKs.
 url: https://raw.githubusercontent.com/api-evangelist/nectar-social/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/6831e07f7427f0c59b8b2a7b/6837117d77fca09e24ab5ba0_Frame%201912056558.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -12,12 +32,23 @@ x-backed-by:
 - true-ventures
 x-tier: stub
 x-tier-reason: portfolio-lead
+x-founders:
+- Misbah Uraizee
+- Farah Uraizee
+x-founded: '2023'
+x-headquarters: Bellevue, WA, US
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-- Ai
+- AI
+- Social Media
+- Community Management
+- Social Listening
+- Influencer Marketing
+- Customer Engagement
+- Social Commerce
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -25,5 +56,26 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: LLMsTxt
+  url: llms/nectar-social-llms.txt
+- type: VulnerabilityDisclosure
+  url: security/nectar-social-vulnerability-disclosure.yml
+- type: Security
+  url: https://www.nectarsocial.com/.well-known/security.txt
+- type: DomainSecurity
+  url: security/nectar-social-domain-security.yml
+- type: SecurityTxt
+  url: well-known/nectar-social-security.txt
+- type: WellKnown
+  url: well-known/nectar-social-well-known.yml
+- type: PrivacyPolicy
+  url: https://www.nectarsocial.com/privacy
+- type: Blog
+  url: https://www.nectarsocial.com/company/news
 - type: Website
   url: https://www.nectarsocial.com
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 1
+  pass: local-v1
