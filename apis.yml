@@ -8,21 +8,28 @@ description: >-
   brand safety, commerce, influencer, social-selling, and analytics use cases.
   Founded in 2023 by Misbah and Farah Uraizee and based in Bellevue, Washington,
   the company raised $30M from Menlo Ventures, GV (Google Ventures), and True
-  Ventures. Added to the API Evangelist network as a company profile; as of this
-  enrichment pass Nectar Social ships a SaaS web application (app.nectarsocial.com)
-  but does not publish a public API, developer portal, OpenAPI, or SDKs.
+  Ventures. Nectar Social operates a remote Model Context Protocol server at
+  mcp.nectarsocial.com/mcp, protected by a full OAuth 2.1 stack — RFC 9728
+  protected-resource metadata, an RFC 8414 authorization server at
+  beta-api.nectarsocial.com publishing 18 fine-grained scopes, PKCE S256, dynamic
+  client registration and token revocation. It is an agent-first surface: the MCP
+  server is the only documented way in, and the company publishes no OpenAPI, no
+  SDK and no public developer documentation, with docs.nectarsocial.com redirecting
+  into a login-gated single-page application.
 url: https://raw.githubusercontent.com/api-evangelist/nectar-social/refs/heads/main/apis.yml
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: sales-gated
+  onboarding: oauth
   trial: false
   try_now: false
   public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  label: Sales-gated
+  confidence: medium
+  source:
+  - https://www.nectarsocial.com/book-a-demo
+  - https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  generated: '2026-08-13'
+  method: probed
 image: https://cdn.prod.website-files.com/6831e07f7427f0c59b8b2a7b/6837117d77fca09e24ab5ba0_Frame%201912056558.png
 x-type: company
 x-source: vc-portfolio
@@ -30,8 +37,8 @@ x-backed-by:
 - gv
 - menlo-ventures
 - true-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: mcp-server-and-oauth-surface-confirmed
 x-founders:
 - Misbah Uraizee
 - Farah Uraizee
@@ -39,7 +46,7 @@ x-founded: '2023'
 x-headquarters: Bellevue, WA, US
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-13'
 tags:
 - Company
 - AI
@@ -49,13 +56,91 @@ tags:
 - Influencer Marketing
 - Customer Engagement
 - Social Commerce
-apis: []
+- MCP
+- Agents
+- OAuth
+apis:
+- name: Nectar Social MCP Server
+  description: >-
+    Remote Model Context Protocol server exposing Nectar Social's social content and
+    analytics to AI agents over JSON-RPC 2.0 (Streamable HTTP). OAuth-protected: an
+    anonymous tools/list returns HTTP 401 with an RFC 9728 WWW-Authenticate challenge,
+    so the live tool list and input schemas require an authenticated introspection.
+    Requires the content:read and analytics:read scopes.
+  humanURL: https://docs.nectarsocial.com/
+  baseURL: https://mcp.nectarsocial.com/mcp
+  tags:
+  - MCP
+  - Agents
+  - Social Media
+  - Analytics
+  properties:
+  - type: MCPServer
+    url: mcp/nectar-social-mcp.yml
+  - type: MCPServer
+    url: https://mcp.nectarsocial.com/mcp
+  - type: Authentication
+    url: authentication/nectar-social-authentication.yml
+  - type: OAuthScopes
+    url: scopes/nectar-social-scopes.yml
+  - type: ErrorCatalog
+    url: errors/nectar-social-problem-types.yml
+  - type: Conventions
+    url: conventions/nectar-social-conventions.yml
+- name: Nectar Social Platform API (Beta)
+  description: >-
+    The OAuth 2.0 authorization server and platform REST API named by the MCP server's
+    protected-resource metadata. Publishes 18 scopes covering content, analytics,
+    community, inbox, campaigns, competitors, social listening, workspace, custom fields,
+    webhook management and contact PII (emails, phone numbers). Every path outside
+    /.well-known/ and /oauth/ returns a blanket 401 until a Bearer token is presented, so
+    the operation surface is not publicly enumerable and no OpenAPI is published.
+  humanURL: https://docs.nectarsocial.com/
+  baseURL: https://beta-api.nectarsocial.com
+  tags:
+  - OAuth
+  - Social Media
+  - Analytics
+  - Webhooks
+  properties:
+  - type: Authentication
+    url: authentication/nectar-social-authentication.yml
+  - type: OAuthScopes
+    url: scopes/nectar-social-scopes.yml
+  - type: Webhooks
+    url: asyncapi/nectar-social-webhooks.yml
+  - type: ErrorCatalog
+    url: errors/nectar-social-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/nectar-social-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: MCPServer
+  url: mcp/nectar-social-mcp.yml
+- type: Authentication
+  url: authentication/nectar-social-authentication.yml
+- type: OAuthScopes
+  url: scopes/nectar-social-scopes.yml
+- type: Conventions
+  url: conventions/nectar-social-conventions.yml
+- type: ErrorCatalog
+  url: errors/nectar-social-problem-types.yml
+- type: Conformance
+  url: conformance/nectar-social-conformance.yml
+- type: Lifecycle
+  url: lifecycle/nectar-social-lifecycle.yml
+- type: Webhooks
+  url: asyncapi/nectar-social-webhooks.yml
+- type: Packages
+  url: packages/nectar-social-packages.yml
+- type: Plans
+  url: plans/nectar-social-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/nectar-social-rate-limits.yml
 - type: LLMsTxt
   url: llms/nectar-social-llms.txt
 - type: VulnerabilityDisclosure
@@ -75,7 +160,7 @@ common:
 - type: Website
   url: https://www.nectarsocial.com
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 1
+  artifacts_added: 13
   pass: local-v1
