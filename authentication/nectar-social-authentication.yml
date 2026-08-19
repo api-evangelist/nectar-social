@@ -1,0 +1,74 @@
+generated: '2026-08-13'
+method: probed
+source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+raw: well-known/nectar-social-oauth-authorization-server.json
+note: >-
+  Nectar Social publishes no public OpenAPI, so this profile is built from the provider's own
+  RFC 8414 authorization server metadata and RFC 9728 protected resource metadata plus the
+  observed 401 challenges on the live API and MCP hosts. All values are transcribed from those
+  documents; nothing is inferred.
+summary:
+  types: [oauth2]
+  api_key_in: []
+  oauth2_flows: [authorizationCode]
+  bearer_token: true
+  pkce: S256
+  dynamic_client_registration: true
+  public_clients_supported: true
+schemes:
+- name: OAuth2
+  type: oauth2
+  issuer: https://beta-api.nectarsocial.com
+  sources:
+  - https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://beta-api.nectarsocial.com/oauth/authorize
+    tokenUrl: https://beta-api.nectarsocial.com/oauth/token
+    scope_count: 18
+    scopes: scopes/nectar-social-scopes.yml
+  grant_types_supported: [authorization_code, refresh_token]
+  response_types_supported: [code]
+  response_modes_supported: [query]
+  code_challenge_methods_supported: [S256]
+  token_endpoint_auth_methods_supported: [none, client_secret_basic, client_secret_post]
+  revocation_endpoint: https://beta-api.nectarsocial.com/oauth/revoke
+  revocation_endpoint_auth_methods_supported: [none, client_secret_basic, client_secret_post]
+  registration_endpoint: https://beta-api.nectarsocial.com/oauth/register
+  resource_indicators_supported: true
+protected_resources:
+- resource: https://mcp.nectarsocial.com/mcp
+  kind: MCP server
+  authorization_servers: [https://beta-api.nectarsocial.com]
+  bearer_methods_supported: [header]
+  scopes_supported: [content:read, analytics:read]
+  challenge: >-
+    WWW-Authenticate: Bearer resource_metadata="https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp"
+- resource: https://beta-api.nectarsocial.com
+  kind: REST API (beta)
+  observed_401_body: >-
+    {"error":{"code":"UNAUTHORIZED","message":"Missing or invalid Bearer token."},
+    "meta":{"request_id":"…","timestamp":"…"}}
+  note: every probed path on this host returns 401 until a Bearer token is presented
+posture:
+  strengths:
+  - Authorization-code flow with PKCE S256 mandated (no implicit, no password grant).
+  - Refresh tokens supported; a token revocation endpoint (RFC 7009) is published.
+  - Dynamic client registration (RFC 7591) is open, so an MCP client can self-register.
+  - token_endpoint_auth_methods_supported includes "none", so public/native clients are first class.
+  - resource_indicators_supported (RFC 8707) — tokens can be audience-bound to a specific resource.
+  - Scope vocabulary is fine-grained (resource:action across 18 scopes).
+  gaps:
+  - No OpenID Connect discovery document (/.well-known/openid-configuration returns 404) — OAuth only, no identity layer advertised.
+  - No jwks_uri published in the authorization server metadata, so token signature verification keys are not discoverable.
+  - No public human documentation of the auth flow; docs.nectarsocial.com redirects into a login-gated app.
+docs: null
+x-evidence:
+- url: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  http_status: 200
+- url: https://mcp.nectarsocial.com/.well-known/oauth-protected-resource
+  http_status: 200
+- url: https://beta-api.nectarsocial.com/.well-known/openid-configuration
+  http_status: 404
+- url: https://mcp.nectarsocial.com/mcp
+  http_status: 401

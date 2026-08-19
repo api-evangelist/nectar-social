@@ -1,0 +1,52 @@
+generated: '2026-08-13'
+method: probed
+source: live probes of www/api/beta-api/mcp/docs hosts
+note: >-
+  Recorded absences below are probe results, not assumptions. Nectar Social publishes no status page,
+  no changelog, no deprecation policy and no SLA that is reachable without a login. Accordingly NO
+  StatusPage and NO Deprecation pointer is emitted in apis.yml — the Lifecycle pointer alone is
+  correct here, and claiming either of the others would assert a surface the company does not serve.
+maturity:
+  stage: beta
+  evidence: >-
+    The authorization server named by the MCP server's RFC 9728 protected-resource metadata is
+    https://beta-api.nectarsocial.com — the production API surface is on a host the provider itself
+    labels "beta". The MCP server host (mcp.nectarsocial.com) carries no such qualifier.
+versioning:
+  scheme: unknown
+  current: null
+  docs: null
+  evidence: blanket 401 outside /.well-known/ prevents anonymous route discovery; no public spec
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+  deprecation_header: unknown
+  evidence: no deprecation or versioning policy page found on any host
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  evidence:
+  - url: https://status.nectarsocial.com
+    result: DNS does not resolve
+  - url: https://www.nectarsocial.com/status
+    http_status: 404
+changelog:
+  url: null
+  evidence:
+  - url: https://www.nectarsocial.com/changelog
+    http_status: 404
+  note: >-
+    The company publishes a news/press feed at https://www.nectarsocial.com/company/news, but that is
+    corporate announcements (funding rounds), not a dated product or API changelog. It is wired as
+    Blog, not as ChangeLog.
+deprecated_operations: []
+x-evidence:
+  fetched: '2026-08-13'
+  probes:
+  - {url: 'https://www.nectarsocial.com/status', http_status: 404}
+  - {url: 'https://www.nectarsocial.com/changelog', http_status: 404}
+  - {url: 'https://www.nectarsocial.com/security', http_status: 404}
+  - {url: 'https://www.nectarsocial.com/docs', http_status: 404}
+  - {url: 'https://docs.nectarsocial.com/', http_status: 307, note: 'redirects to https://app.nectarsocial.com/docs (login-gated SPA)'}

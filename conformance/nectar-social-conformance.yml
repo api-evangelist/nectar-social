@@ -1,0 +1,102 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server and
+  https://mcp.nectarsocial.com/.well-known/oauth-protected-resource
+note: >-
+  Every "conforms: true" below is backed by a document Nectar Social serves from its own hosts
+  and that was fetched anonymously on the date above. Standards that could not be verified are
+  recorded as conforms: false with the probe that established the absence — not omitted.
+standards:
+- id: oauth2
+  name: OAuth 2.0 (RFC 6749)
+  conforms: true
+  evidence: >-
+    Authorization server metadata publishes authorization_endpoint, token_endpoint,
+    grant_types_supported [authorization_code, refresh_token], response_types_supported [code].
+- id: rfc8414-oauth-authorization-server-metadata
+  name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+  conforms: true
+  evidence: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server returns 200 application/json
+- id: rfc9728-oauth-protected-resource-metadata
+  name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+  conforms: true
+  evidence: >-
+    https://mcp.nectarsocial.com/.well-known/oauth-protected-resource returns 200 with resource,
+    authorization_servers, scopes_supported and bearer_methods_supported; the 401 on /mcp carries
+    WWW-Authenticate: Bearer resource_metadata="…".
+- id: rfc7636-pkce
+  name: Proof Key for Code Exchange (RFC 7636)
+  conforms: true
+  evidence: code_challenge_methods_supported = ["S256"]
+- id: rfc7591-dynamic-client-registration
+  name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+  conforms: true
+  evidence: registration_endpoint = https://beta-api.nectarsocial.com/oauth/register
+- id: rfc7009-token-revocation
+  name: OAuth 2.0 Token Revocation (RFC 7009)
+  conforms: true
+  evidence: revocation_endpoint = https://beta-api.nectarsocial.com/oauth/revoke
+- id: rfc8707-resource-indicators
+  name: Resource Indicators for OAuth 2.0 (RFC 8707)
+  conforms: true
+  evidence: resource_indicators_supported = true
+- id: rfc6750-bearer-token
+  name: OAuth 2.0 Bearer Token Usage (RFC 6750)
+  conforms: true
+  evidence: bearer_methods_supported = ["header"]; observed WWW-Authenticate Bearer challenge on 401
+- id: mcp-authorization
+  name: Model Context Protocol authorization (OAuth 2.1 profile)
+  conforms: true
+  evidence: >-
+    mcp.nectarsocial.com/mcp implements the MCP authorization spec — RFC 9728 discovery from a 401
+    WWW-Authenticate challenge, PKCE-mandatory authorization code, and open dynamic client registration.
+- id: model-context-protocol
+  name: Model Context Protocol (JSON-RPC 2.0 over Streamable HTTP)
+  conforms: true
+  evidence: >-
+    JSON-RPC POST to https://mcp.nectarsocial.com/mcp is accepted and answered with an MCP-shaped
+    OAuth error rather than a transport error. Method-level conformance (tools/list, resources/list)
+    could not be verified — it is behind the OAuth wall.
+- id: rfc9116-security-txt
+  name: security.txt (RFC 9116)
+  conforms: true
+  evidence: https://www.nectarsocial.com/.well-known/security.txt returns 200 with Contact and Expires
+- id: openid-connect-discovery
+  name: OpenID Connect Discovery 1.0
+  conforms: false
+  evidence: https://beta-api.nectarsocial.com/.well-known/openid-configuration returns 404
+- id: openapi
+  name: OpenAPI Specification
+  conforms: false
+  evidence: >-
+    No OpenAPI document found on any host — www, app, api, beta-api, docs and mcp were all probed at
+    /openapi.json, /openapi.yaml, /swagger.json, /v1/openapi.json, /api-docs, /docs, /redoc,
+    /documentation and /documentation/json.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: no AsyncAPI document published; see asyncapi/nectar-social-webhooks.yml
+- id: rfc9457-problem-details
+  name: Problem Details for HTTP APIs (RFC 9457)
+  conforms: false
+  evidence: >-
+    Error bodies are custom JSON envelopes with application/json content-type, not
+    application/problem+json — see errors/nectar-social-problem-types.yml
+- id: a2a-agent-card
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on www, api, beta-api and mcp;
+    app and docs return an HTML SPA shell (soft 200), which is not a card.
+- id: rfc7807-http-rate-limit-headers
+  name: RateLimit header fields for HTTP
+  conforms: false
+  evidence: no RateLimit-*, X-RateLimit-* or Retry-After headers observed on any probed response
+compliance_program:
+  published: false
+  note: >-
+    No trust center, certification page or named certification (SOC 2, ISO 27001, PCI DSS, HIPAA,
+    FedRAMP) was found. /security, /trust and /compliance on www.nectarsocial.com all return 404,
+    and trust.nectarsocial.com and security.nectarsocial.com do not resolve. No Compliance pointer
+    is emitted.

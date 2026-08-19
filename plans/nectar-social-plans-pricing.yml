@@ -1,0 +1,26 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.nectarsocial.com/ and https://www.nectarsocial.com/sitemap-0.xml
+plan_count: 0
+plans: []
+note: >-
+  Nectar Social publishes no pricing at all. https://www.nectarsocial.com/pricing returns 404 and the
+  company's own sitemap (sitemap-0.xml, 10 URLs total) contains no pricing, plans or packaging page.
+  The only commercial call to action on the marketing site is https://www.nectarsocial.com/book-a-demo,
+  a sales form. There is likewise no published pricing for API or MCP access — the MCP server is
+  OAuth-gated and the platform API returns a blanket 401, so entitlement is presumably granted through
+  a sales-led contract. This is an honest zero, not a missing measurement.
+access_model:
+  pricing: sales-gated
+  self_serve_signup: false
+  free_tier: false
+  trial: unknown
+  contact_route: https://www.nectarsocial.com/book-a-demo
+x-evidence:
+- url: https://www.nectarsocial.com/pricing
+  http_status: 404
+- url: https://www.nectarsocial.com/sitemap-0.xml
+  http_status: 200
+  note: 10 URLs, none of them pricing or plans
+- url: https://www.nectarsocial.com/book-a-demo
+  http_status: 200

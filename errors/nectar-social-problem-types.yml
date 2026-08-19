@@ -1,0 +1,90 @@
+generated: '2026-08-13'
+method: probed
+source: live anonymous responses from beta-api.nectarsocial.com, api.nectarsocial.com and mcp.nectarsocial.com
+format: custom-json
+format_note: >-
+  NOT RFC 9457. All error bodies are served as application/json, never application/problem+json,
+  and carry no type/title/detail/instance members. Three DIFFERENT envelopes are in use across
+  three hosts of the same product, which is itself the finding.
+note: >-
+  Only errors actually observed on unauthenticated requests are listed. Nectar Social publishes no
+  public error reference (docs.nectarsocial.com redirects into a login-gated app), so the authenticated
+  error surface — validation errors, rate-limit errors, business-rule errors — is not recorded here.
+  Nothing below is inferred.
+envelopes:
+- id: platform-api
+  host: beta-api.nectarsocial.com
+  shape: '{"error":{"code":"<STRING_ENUM>","message":"<human string>"},"meta":{"request_id":"<uuid>","timestamp":"<iso8601-or-epoch-ms>"}}'
+  request_id: meta.request_id
+  machine_code: error.code
+  note: >-
+    The richest of the three. Carries a per-request correlation id an agent can quote to support.
+    timestamp is inconsistent — ISO 8601 on 404 responses, epoch-milliseconds-as-string on 401.
+- id: gateway-api
+  host: api.nectarsocial.com
+  shape: '{"message":"<string>","error":"<reason phrase>","statusCode":<int>}'
+  request_id: null
+  machine_code: null
+  note: >-
+    The stock Fastify not-found envelope. Flat, no correlation id, and "error" carries the HTTP
+    reason phrase rather than a stable machine code.
+- id: mcp
+  host: mcp.nectarsocial.com
+  shape: '{"error":"<oauth_error_code>","error_description":"<string>"}'
+  request_id: x-amzn-requestid (response header only, not in body)
+  machine_code: error
+  note: OAuth 2.0 error object (RFC 6749 §5.2) rather than a JSON-RPC error object.
+problems:
+- status: 401
+  code: UNAUTHORIZED
+  envelope: platform-api
+  title: Missing or invalid Bearer token.
+  remediation: >-
+    Obtain a token via the authorization-code + PKCE flow at
+    https://beta-api.nectarsocial.com/oauth/authorize and present it as Authorization: Bearer.
+  observed_at: https://beta-api.nectarsocial.com/v1
+- status: 404
+  code: RESOURCE_NOT_FOUND
+  envelope: platform-api
+  title: 'Route GET <path> not found'
+  remediation: >-
+    Only reachable under the unauthenticated /.well-known/ prefix. Everywhere else the platform API
+    applies a blanket 401 before routing — a nonsense path returns UNAUTHORIZED, not RESOURCE_NOT_FOUND
+    — so an agent cannot distinguish "wrong path" from "no token" outside /.well-known/.
+  observed_at: https://beta-api.nectarsocial.com/.well-known/openid-configuration
+- status: 400
+  code: invalid_request
+  envelope: mcp
+  title: 'Invalid authorization request'
+  detail: >-
+    Field-level validation is returned inside error_description as a semicolon-joined string,
+    e.g. "client_id: Invalid input: expected string, received undefined; redirect_uri: …".
+    It is human-readable but not machine-parseable as structured field errors.
+  remediation: Supply client_id, redirect_uri and response_type on the authorize request.
+  observed_at: https://beta-api.nectarsocial.com/oauth/authorize
+- status: 401
+  code: invalid_token
+  envelope: mcp
+  title: The access token is missing, invalid, or revoked.
+  remediation: >-
+    Follow the WWW-Authenticate resource_metadata pointer to
+    https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp, then register a client and
+    obtain a token with the content:read and analytics:read scopes.
+  observed_at: https://mcp.nectarsocial.com/mcp
+- status: 404
+  code: not_found
+  envelope: mcp
+  title: not_found
+  remediation: Only /mcp and the /.well-known/oauth-protected-resource paths are routed on this host.
+  observed_at: https://mcp.nectarsocial.com/sse
+- status: 404
+  code: null
+  envelope: gateway-api
+  title: 'Route GET:<path> not found'
+  remediation: n/a — api.nectarsocial.com exposes no anonymously reachable routes.
+  observed_at: https://api.nectarsocial.com/
+gaps:
+- No RFC 9457 problem+json.
+- No stable machine-readable error-code registry published.
+- Three inconsistent envelopes across three hosts of one product; an agent must branch on host.
+- Correlation ids exist on the platform API only, and are absent from the gateway host entirely.

@@ -1,0 +1,104 @@
+generated: '2026-08-13'
+method: probed
+source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+raw: well-known/nectar-social-oauth-authorization-server.json
+note: >-
+  Derived from the provider's own RFC 8414 OAuth 2.0 Authorization Server Metadata document,
+  fetched anonymously. Nectar Social publishes no public OpenAPI and no public scopes reference
+  page, so scopes_supported in the discovery document is the authoritative published scope
+  vocabulary. Descriptions below are the plain reading of each scope string against the product
+  surface Nectar Social markets; no scope, permission, or grouping has been invented.
+schemes:
+- name: OAuth2
+  type: oauth2
+  source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://beta-api.nectarsocial.com/oauth/authorize
+    tokenUrl: https://beta-api.nectarsocial.com/oauth/token
+    refreshUrl: https://beta-api.nectarsocial.com/oauth/token
+  pkce:
+    required_methods:
+    - S256
+  dynamic_client_registration: https://beta-api.nectarsocial.com/oauth/register
+  revocation_endpoint: https://beta-api.nectarsocial.com/oauth/revoke
+  resource_indicators_supported: true
+scope_count: 18
+scopes:
+- scope: analytics:read
+  description: Read performance analytics, KPI dashboards and post-level insights.
+  flows: [authorizationCode]
+  mcp_required: true
+- scope: content:read
+  description: Read social content/posts managed in the workspace.
+  flows: [authorizationCode]
+  mcp_required: true
+- scope: community:read
+  description: Read community management data.
+  flows: [authorizationCode]
+- scope: campaigns:read
+  description: Read campaign records.
+  flows: [authorizationCode]
+- scope: competitors:read
+  description: Read competitor tracking data.
+  flows: [authorizationCode]
+- scope: social_listening:read
+  description: Read social listening / cross-channel monitoring data.
+  flows: [authorizationCode]
+- scope: inbox:read
+  description: Read the social inbox (DMs, comments, mentions).
+  flows: [authorizationCode]
+- scope: inbox_rule:trigger
+  description: Trigger an inbox automation rule.
+  flows: [authorizationCode]
+- scope: mention_content
+  description: Access mention content. Note the scope string carries no read/write suffix, unlike the other 17.
+  flows: [authorizationCode]
+- scope: workspace:read
+  description: Read workspace metadata.
+  flows: [authorizationCode]
+- scope: emails:read
+  description: Read contact email addresses.
+  flows: [authorizationCode]
+  pii: true
+- scope: emails:write
+  description: Write contact email addresses.
+  flows: [authorizationCode]
+  pii: true
+- scope: phone_numbers:read
+  description: Read contact phone numbers.
+  flows: [authorizationCode]
+  pii: true
+- scope: phone_numbers:write
+  description: Write contact phone numbers.
+  flows: [authorizationCode]
+  pii: true
+- scope: custom_field_values:read
+  description: Read custom field values on records.
+  flows: [authorizationCode]
+- scope: custom_field_values:write
+  description: Write custom field values on records.
+  flows: [authorizationCode]
+- scope: webhooks:write
+  description: Create or update webhook subscriptions.
+  flows: [authorizationCode]
+- scope: webhooks:delete
+  description: Delete webhook subscriptions.
+  flows: [authorizationCode]
+observations:
+  granularity: resource:action
+  read_write_split: 13 read/trigger-style scopes, 4 explicit write/delete scopes, 1 unsuffixed (mention_content)
+  pii_scopes: [emails:read, emails:write, phone_numbers:read, phone_numbers:write]
+  webhook_management: >-
+    webhooks:write and webhooks:delete are published, which means the API exposes webhook
+    subscription management. The event catalog itself is not public — see
+    asyncapi/nectar-social-webhooks.yml.
+  docs: null
+  docs_note: >-
+    No public scopes/permissions reference page was found. docs.nectarsocial.com 307-redirects
+    to https://app.nectarsocial.com/docs, a JS-rendered application shell that requires a login.
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  http_status: 200
+  content_type: application/json

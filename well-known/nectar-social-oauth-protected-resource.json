@@ -1,0 +1,1 @@
+{"resource":"https://mcp.nectarsocial.com/mcp","authorization_servers":["https://beta-api.nectarsocial.com"],"scopes_supported":["content:read","analytics:read"],"bearer_methods_supported":["header"]}

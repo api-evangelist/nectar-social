@@ -1,19 +1,105 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-host: https://www.nectarsocial.com
-documents:
-- path: /.well-known/security.txt
-  status: 200
-  file: nectar-social-security.txt
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
-notes: >-
-  app.nectarsocial.com returns HTTP 200 for /.well-known/openid-configuration and
-  /oauth-authorization-server, but the body is the single-page-app HTML shell
-  (soft 404), not a real OIDC/OAuth metadata document, so they are not indexed.
+source: live anonymous /.well-known/ probes across every Nectar Social host
+note: >-
+  Supersedes the 2026-07-20 index, which probed only www.nectarsocial.com and therefore missed the
+  entire OAuth/MCP discovery surface. Two real machine-readable discovery documents are served —
+  RFC 9728 protected-resource metadata on mcp.nectarsocial.com and RFC 8414 authorization server
+  metadata on beta-api.nectarsocial.com — plus an RFC 9116 security.txt on www. All three are saved
+  verbatim alongside this index.
+hosts:
+- host: https://mcp.nectarsocial.com
+  role: MCP server
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: nectar-social-oauth-protected-resource.json
+    spec: RFC 9728
+    real_document: true
+  - path: /.well-known/oauth-protected-resource/mcp
+    status: 200
+    real_document: true
+    note: resource-scoped variant named by the WWW-Authenticate challenge; identical body, not saved twice
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/mcp.json
+    status: 404
+- host: https://beta-api.nectarsocial.com
+  role: OAuth authorization server + platform API (beta)
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: nectar-social-oauth-authorization-server.json
+    spec: RFC 8414
+    real_document: true
+    note: publishes 18 scopes, PKCE S256, dynamic client registration and a revocation endpoint
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    real_document: true
+    note: >-
+      mirrors the MCP resource document but advertises all 18 scopes rather than the 2 the MCP
+      resource requires; not saved separately
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+- host: https://www.nectarsocial.com
+  role: marketing site
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: nectar-social-security.txt
+    spec: RFC 9116
+    real_document: true
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.nectarsocial.com
+  role: gateway host (Fastify; no anonymously reachable routes)
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://app.nectarsocial.com
+  role: web application (SPA)
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    real_document: false
+    note: SOFT 200 — body is the application's HTML shell, not a document. Not indexed as a hit.
+  - path: /.well-known/agent.json
+    status: 200
+    real_document: false
+    note: SOFT 200 — HTML shell. Not a hit.
+  - path: /.well-known/openid-configuration
+    status: 200
+    real_document: false
+    note: SOFT 200 — HTML shell, carried over from the 2026-07-20 probe. Not a hit.
+summary:
+  real_documents: 3
+  soft_200_html_shells: 3
+  specs_served: [RFC 9728, RFC 8414, RFC 9116]
+  api_catalog: false
+  agent_card: false

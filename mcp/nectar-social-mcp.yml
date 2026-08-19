@@ -1,0 +1,68 @@
+generated: '2026-08-13'
+method: probed
+source: https://mcp.nectarsocial.com/.well-known/oauth-protected-resource
+status: published
+server:
+  name: nectar-social
+  transport: http
+  url: https://mcp.nectarsocial.com/mcp
+deployment:
+  mode: remote
+  endpoint: https://mcp.nectarsocial.com/mcp
+  auth: oauth
+  verified: probed
+authorization:
+  model: OAuth 2.1 / MCP authorization (RFC 9728 protected-resource metadata)
+  resource: https://mcp.nectarsocial.com/mcp
+  authorization_servers:
+  - https://beta-api.nectarsocial.com
+  bearer_methods_supported:
+  - header
+  scopes_required:
+  - content:read
+  - analytics:read
+  scopes_artifact: scopes/nectar-social-scopes.yml
+  www_authenticate: >-
+    Bearer resource_metadata="https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp"
+tools:
+  status: gated
+  count: null
+  note: >-
+    An anonymous JSON-RPC POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} to
+    https://mcp.nectarsocial.com/mcp returns HTTP 401
+    {"error":"invalid_token","error_description":"The access token is missing, invalid, or revoked."}
+    with a WWW-Authenticate: Bearer challenge carrying the RFC 9728 resource_metadata pointer.
+    The live tool list and per-tool inputSchema therefore require an authenticated MCP
+    introspection and are NOT recorded here. No tool names are inferred or invented.
+    Nectar Social publishes no llms.txt tool list and no public OpenAPI to fall back on, so
+    the only anonymously-verifiable capability signal is the OAuth scope vocabulary the
+    authorization server advertises (see scopes/nectar-social-scopes.yml).
+discovery:
+  probed:
+  - url: https://mcp.nectarsocial.com/mcp
+    method: POST
+    http_status: 401
+    note: real MCP endpoint; OAuth-gated, returns RFC 9728 WWW-Authenticate challenge
+  - url: https://mcp.nectarsocial.com/.well-known/oauth-protected-resource
+    method: GET
+    http_status: 200
+    note: RFC 9728 protected resource metadata, saved verbatim to well-known/
+  - url: https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp
+    method: GET
+    http_status: 200
+    note: resource-scoped variant named by the WWW-Authenticate header; identical body
+  - url: https://mcp.nectarsocial.com/sse
+    method: GET
+    http_status: 404
+    note: no SSE transport advertised
+  - url: https://mcp.nectarsocial.com/
+    method: GET
+    http_status: 404
+x-evidence:
+  fetched: '2026-08-13'
+  host: mcp.nectarsocial.com
+  infrastructure: AWS API Gateway (x-amz-apigw-id / x-amzn-errortype response headers observed)
+  note: >-
+    mcp.nectarsocial.com is served from a Nectar Social-controlled subdomain and its
+    protected-resource metadata names https://beta-api.nectarsocial.com as the authorization
+    server — both on the company's own registrable domain, so ownership is established.

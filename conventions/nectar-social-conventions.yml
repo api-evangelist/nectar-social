@@ -1,0 +1,74 @@
+generated: '2026-08-13'
+method: probed
+source: >-
+  live anonymous probes of mcp.nectarsocial.com, beta-api.nectarsocial.com and api.nectarsocial.com,
+  plus the provider's RFC 8414 / RFC 9728 discovery documents
+note: >-
+  Nectar Social publishes no public developer documentation — docs.nectarsocial.com 307-redirects to
+  https://app.nectarsocial.com/docs, a JS-rendered application shell behind a login. Every convention
+  below was therefore observed on the wire or read out of a provider-served discovery document.
+  Conventions that could not be established are recorded as unknown, not guessed.
+authentication:
+  style: OAuth 2.0 Bearer token (Authorization header)
+  flow: authorization_code + PKCE (S256), refresh_token
+  registration: dynamic client registration, open (RFC 7591)
+  detail: authentication/nectar-social-authentication.yml
+  scopes: scopes/nectar-social-scopes.yml
+idempotency:
+  supported: unknown
+  header: null
+  evidence: >-
+    No Idempotency-Key header, no idempotency documentation, and no OpenAPI to inspect. The write
+    surface (emails:write, phone_numbers:write, custom_field_values:write, webhooks:write,
+    webhooks:delete, inbox_rule:trigger) is entirely behind OAuth, so retry semantics could not be
+    observed. Recorded as unknown — NOT as supported. No Idempotency pointer is emitted.
+pagination:
+  style: unknown
+  evidence: no anonymously reachable collection endpoint and no public spec
+versioning:
+  scheme: unknown
+  current: null
+  evidence: >-
+    Not determinable anonymously. beta-api.nectarsocial.com applies a BLANKET 401 to every path
+    outside /.well-known/ and /oauth/ — a deliberately nonsense path (/zzz-does-not-exist-9271)
+    returns the same UNAUTHORIZED envelope as /v1 — so a 401 on /v1 is not evidence that a /v1
+    prefix is routed. No version prefix is claimed.
+  maturity: beta
+  maturity_evidence: the API host the authorization server metadata names is literally beta-api.nectarsocial.com
+error_envelope:
+  format: custom-json (three different shapes across three hosts)
+  problem_json: false
+  detail: errors/nectar-social-problem-types.yml
+request_tracing:
+  supported: partial
+  body_field: meta.request_id (platform API only, UUID)
+  response_header: x-amzn-requestid (AWS API Gateway, present on all hosts)
+  note: >-
+    The x-amzn-requestid header is emitted by AWS infrastructure rather than deliberately published
+    by Nectar Social, but it is stable and quotable. meta.request_id is application-level and is the
+    one an agent should surface to support.
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: unknown
+  detail: rate-limits/nectar-social-rate-limits.yml
+  note: no RateLimit-*, X-RateLimit-* or Retry-After header observed on any probed response
+field_expansion:
+  supported: unknown
+metadata:
+  supported: true
+  mechanism: custom fields
+  evidence: custom_field_values:read and custom_field_values:write scopes are published
+webhooks:
+  management: true
+  evidence: webhooks:write and webhooks:delete scopes are published
+  detail: asyncapi/nectar-social-webhooks.yml
+transport:
+  mcp: JSON-RPC 2.0 over HTTP POST at https://mcp.nectarsocial.com/mcp (Streamable HTTP; no /sse endpoint)
+  rest: HTTPS on beta-api.nectarsocial.com, HTTP/2, TLS 1.3
+cross_links:
+  authentication: authentication/nectar-social-authentication.yml
+  scopes: scopes/nectar-social-scopes.yml
+  errors: errors/nectar-social-problem-types.yml
+  lifecycle: lifecycle/nectar-social-lifecycle.yml
+  rate_limits: rate-limits/nectar-social-rate-limits.yml
+  conformance: conformance/nectar-social-conformance.yml

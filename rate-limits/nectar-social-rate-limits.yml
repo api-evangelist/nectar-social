@@ -1,0 +1,39 @@
+generated: '2026-08-13'
+method: probed
+source: response headers observed on live anonymous requests to all three Nectar Social API hosts
+limit_count: 0
+limits: []
+note: >-
+  No rate limits are published and none are signalled at runtime. Full response headers were captured
+  from mcp.nectarsocial.com/mcp (401), beta-api.nectarsocial.com (401) and api.nectarsocial.com (404):
+  none carries a RateLimit-*, X-RateLimit-*, RateLimit-Policy or Retry-After header. There is no
+  public documentation to read a limit out of either, since docs.nectarsocial.com redirects into a
+  login-gated app. An honest zero.
+  CAVEAT worth recording: these observations are all from UNAUTHENTICATED responses. It remains
+  possible that limits are applied and signalled only on authenticated traffic; that cannot be
+  established without a token, and is not assumed here.
+response_headers:
+  rate_limit_headers_observed: []
+  status_on_exhaustion: unknown
+  retry_after: false
+  headers_seen:
+  - date
+  - content-type
+  - content-length
+  - x-amzn-requestid
+  - x-amzn-errortype
+  - x-amz-apigw-id
+  - www-authenticate
+x-evidence:
+- url: https://mcp.nectarsocial.com/mcp
+  method: POST
+  http_status: 401
+  rate_limit_headers: none
+- url: https://beta-api.nectarsocial.com/v1
+  method: GET
+  http_status: 401
+  rate_limit_headers: none
+- url: https://api.nectarsocial.com/
+  method: GET
+  http_status: 404
+  rate_limit_headers: none

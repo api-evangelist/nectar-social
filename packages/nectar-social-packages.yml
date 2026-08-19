@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  npm registry search + registry.npmjs.org metadata, pypi.org, and the GitHub org
+  https://github.com/NectarSocial
+note: >-
+  Nectar Social ships NO client SDK for its own API. One package exists under the company's own npm
+  scope, but it wraps a third-party vendor (Hookdeck), not the Nectar Social API. No SDKs pointer is
+  emitted in apis.yml, because emitting one would credit the company with a client library it does
+  not publish.
+sdk_count: 0
+package_count: 1
+packages:
+- language: typescript
+  registry: npm
+  name: "@nectarsocial/hookdeck"
+  url: https://www.npmjs.com/package/@nectarsocial/hookdeck
+  install: npm install @nectarsocial/hookdeck
+  version: 2.1.0
+  published: '2025-10-08'
+  official: true
+  official_basis: published under the @nectarsocial npm scope, which the company controls
+  sdk_for_this_api: false
+  description: A Pulumi provider dynamically bridged from hookdeck.
+  wraps: https://github.com/hookdeck/terraform-provider-hookdeck
+  release_count: 1
+  license: null
+  note: >-
+    This is an infrastructure package, not a Nectar Social API client. It is a Pulumi bridge of the
+    Hookdeck Terraform provider, republished into Nectar Social's npm scope — its repository field
+    points at hookdeck/terraform-provider-hookdeck. Single version, published 2025-10-08 and never
+    updated since. It is recorded because it is genuine first-party output and it corroborates
+    Hookdeck as the webhook delivery layer, not because it helps anyone call the Nectar Social API.
+registries_checked:
+- registry: npm
+  query: nectarsocial / "nectar social"
+  result: 1 package under the @nectarsocial scope (above); no API client library
+- registry: pypi
+  query: nectar-social, nectarsocial
+  result: 404 — no package
+- registry: github
+  query: https://github.com/NectarSocial
+  result: >-
+    Organization exists (created 2025-02-24) but publishes 0 public repositories and has no name,
+    description or website set. Nothing to harvest, and with no public content the org page cannot be
+    attributed to the company with confidence — no GitHubOrganization pointer is emitted.
+gaps:
+- No first-party SDK in any language for the Nectar Social API.
+- No CLI.
+- The only consumable surface is the OAuth-gated MCP server, which needs no SDK — but also no REST client exists for the platform API.

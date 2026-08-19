@@ -1,0 +1,51 @@
+generated: '2026-08-13'
+method: probed
+source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+spec_type: null
+asyncapi_published: false
+note: >-
+  Nectar Social publishes NO AsyncAPI document — /asyncapi.yaml, /asyncapi.json and the event-catalog
+  paths were probed on every host and miss. What IS established anonymously is that the platform API
+  exposes webhook SUBSCRIPTION MANAGEMENT: the provider's own RFC 8414 authorization server metadata
+  advertises the scopes "webhooks:write" and "webhooks:delete" in scopes_supported. A provider does
+  not publish delete/write scopes for a resource it does not expose.
+  This artifact records that surface and nothing more. The EVENT CATALOG — which events fire, their
+  payload schemas, delivery/retry semantics, signature verification — is NOT public and is NOT
+  reconstructed here. No event name is invented.
+webhooks:
+  management_api: true
+  management_evidence:
+  - kind: oauth-scope
+    value: webhooks:write
+    source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  - kind: oauth-scope
+    value: webhooks:delete
+    source: https://beta-api.nectarsocial.com/.well-known/oauth-authorization-server
+  subscription_scopes: [webhooks:write, webhooks:delete]
+  read_scope_absent: >-
+    There is no webhooks:read scope in the published vocabulary — subscriptions can be created and
+    deleted with OAuth scopes but there is no advertised scope for listing them.
+  event_catalog_published: false
+  event_count: null
+  payload_schemas_published: false
+  signature_verification_documented: false
+  retry_policy_documented: false
+infrastructure_signal:
+  vendor: Hookdeck
+  evidence: >-
+    Nectar Social publishes the npm package @nectarsocial/hookdeck (their own npm scope) — a Pulumi
+    provider bridged from Hookdeck, the webhook infrastructure vendor. This corroborates a real
+    webhook delivery surface but is an inference about their INTERNAL stack, not a published
+    developer-facing contract. See packages/nectar-social-packages.yml.
+  confidence: medium
+probes:
+- url: https://beta-api.nectarsocial.com/asyncapi.yaml
+  http_status: 401
+- url: https://www.nectarsocial.com/asyncapi.yaml
+  http_status: 404
+- url: https://www.nectarsocial.com/asyncapi.json
+  http_status: 404
+gaps:
+- No AsyncAPI specification.
+- No public event catalog, so an agent cannot know what it can subscribe to without a sales conversation.
+- No published signature-verification scheme, so a consumer cannot validate delivery authenticity from the docs.
