@@ -49,6 +49,18 @@ created: '2026-07-17'
 modified: '2026-08-13'
 tags:
 - Company
+- Artificial Intelligence
+- Social-Media
+- Community Management
+- Social Listening
+- Influencer Marketing
+- Customer Engagement
+- Social Commerce
+- MCP
+- Agents
+- Authentication
+tags_raw:
+- Company
 - AI
 - Social Media
 - Community Management
@@ -70,6 +82,11 @@ apis:
   humanURL: https://docs.nectarsocial.com/
   baseURL: https://mcp.nectarsocial.com/mcp
   tags:
+  - MCP
+  - Agents
+  - Social-Media
+  - Analytics
+  tags_raw:
   - MCP
   - Agents
   - Social Media
@@ -98,6 +115,11 @@ apis:
   humanURL: https://docs.nectarsocial.com/
   baseURL: https://beta-api.nectarsocial.com
   tags:
+  - Authentication
+  - Social-Media
+  - Analytics
+  - Webhook
+  tags_raw:
   - OAuth
   - Social Media
   - Analytics
