@@ -11,6 +11,11 @@ deployment:
   endpoint: https://mcp.nectarsocial.com/mcp
   auth: oauth
   verified: probed
+  probe_prior: (never probed)
+  probe: gated
+  probe_why: RFC 9728 challenge on the MCP path only
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 authorization:
   model: OAuth 2.1 / MCP authorization (RFC 9728 protected-resource metadata)
   resource: https://mcp.nectarsocial.com/mcp
@@ -22,21 +27,17 @@ authorization:
   - content:read
   - analytics:read
   scopes_artifact: scopes/nectar-social-scopes.yml
-  www_authenticate: >-
-    Bearer resource_metadata="https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp"
+  www_authenticate: Bearer resource_metadata="https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp"
 tools:
   status: gated
   count: null
-  note: >-
-    An anonymous JSON-RPC POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} to
-    https://mcp.nectarsocial.com/mcp returns HTTP 401
-    {"error":"invalid_token","error_description":"The access token is missing, invalid, or revoked."}
-    with a WWW-Authenticate: Bearer challenge carrying the RFC 9728 resource_metadata pointer.
-    The live tool list and per-tool inputSchema therefore require an authenticated MCP
-    introspection and are NOT recorded here. No tool names are inferred or invented.
-    Nectar Social publishes no llms.txt tool list and no public OpenAPI to fall back on, so
-    the only anonymously-verifiable capability signal is the OAuth scope vocabulary the
-    authorization server advertises (see scopes/nectar-social-scopes.yml).
+  note: 'An anonymous JSON-RPC POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} to https://mcp.nectarsocial.com/mcp
+    returns HTTP 401 {"error":"invalid_token","error_description":"The access token is missing, invalid,
+    or revoked."} with a WWW-Authenticate: Bearer challenge carrying the RFC 9728 resource_metadata pointer.
+    The live tool list and per-tool inputSchema therefore require an authenticated MCP introspection and
+    are NOT recorded here. No tool names are inferred or invented. Nectar Social publishes no llms.txt
+    tool list and no public OpenAPI to fall back on, so the only anonymously-verifiable capability signal
+    is the OAuth scope vocabulary the authorization server advertises (see scopes/nectar-social-scopes.yml).'
 discovery:
   probed:
   - url: https://mcp.nectarsocial.com/mcp
@@ -62,7 +63,6 @@ x-evidence:
   fetched: '2026-08-13'
   host: mcp.nectarsocial.com
   infrastructure: AWS API Gateway (x-amz-apigw-id / x-amzn-errortype response headers observed)
-  note: >-
-    mcp.nectarsocial.com is served from a Nectar Social-controlled subdomain and its
-    protected-resource metadata names https://beta-api.nectarsocial.com as the authorization
-    server — both on the company's own registrable domain, so ownership is established.
+  note: mcp.nectarsocial.com is served from a Nectar Social-controlled subdomain and its protected-resource
+    metadata names https://beta-api.nectarsocial.com as the authorization server — both on the company's
+    own registrable domain, so ownership is established.
