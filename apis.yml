@@ -61,7 +61,7 @@ modified: '2026-08-13'
 tags:
 - Company
 - Artificial Intelligence
-- Social-Media
+- Social Media
 - Community Management
 - Social Listening
 - Influencer Marketing
@@ -82,6 +82,7 @@ tags_raw:
 - MCP
 - Agents
 - OAuth
+- Social-Media
 apis:
 - name: Nectar Social MCP Server
   description: >-
@@ -95,13 +96,14 @@ apis:
   tags:
   - MCP
   - Agents
-  - Social-Media
+  - Social Media
   - Analytics
   tags_raw:
   - MCP
   - Agents
   - Social Media
   - Analytics
+  - Social-Media
   properties:
   - type: MCPServer
     url: mcp/nectar-social-mcp.yml
@@ -127,7 +129,7 @@ apis:
   baseURL: https://beta-api.nectarsocial.com
   tags:
   - Authentication
-  - Social-Media
+  - Social Media
   - Analytics
   - Webhook
   tags_raw:
@@ -135,6 +137,7 @@ apis:
   - Social Media
   - Analytics
   - Webhooks
+  - Social-Media
   properties:
   - type: Authentication
     url: authentication/nectar-social-authentication.yml
