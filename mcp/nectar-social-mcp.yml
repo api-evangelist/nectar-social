@@ -66,3 +66,19 @@ x-evidence:
   note: mcp.nectarsocial.com is served from a Nectar Social-controlled subdomain and its protected-resource
     metadata names https://beta-api.nectarsocial.com as the authorization server — both on the company's
     own registrable domain, so ownership is established.
+rfc9728:
+  endpoint: https://mcp.nectarsocial.com/mcp
+  metadata_url: https://mcp.nectarsocial.com/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.nectarsocial.com/mcp
+    authorization_servers:
+    - https://beta-api.nectarsocial.com
+    scopes_supported:
+    - content:read
+    - analytics:read
+    bearer_methods_supported:
+    - header
