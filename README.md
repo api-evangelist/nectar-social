@@ -64,6 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Nectar Social is a company surfaced as a portfolio company of gv, menlo-ventures, true-ventures and added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment pipeline.
+Nectar Social is an AI "social operating system" for consumer brands — an AI-powered social teammate that manages online communities, performs real-time social listening and sentiment analysis, tracks influencers, and turns organic social engagement and DM conversations into measurable revenue across community, brand safety, commerce, influencer, social-selling, and analytics use cases. Founded in 2023 by Misbah and Farah Uraizee and based in Bellevue, Washington, the company raised $30M from Menlo Ventures, GV (Google Ventures), and True Ventures. Nectar Social operates a remote Model Context Protocol server at mcp.nectarsocial.com/mcp, protected by a full OAuth 2.1 stack — RFC 9728 protected-resource metadata, an RFC 8414 authorization server at beta-api.nectarsocial.com publishing 18 fine-grained scopes, PKCE S256, dynamic client registration and token revocation. It is an agent-first surface: the MCP server is the only documented way in, and the company publishes no OpenAPI, no SDK and no public developer documentation, with docs.nectarsocial.com redirecting into a login-gated single-page application.
 
-Backed by: gv, menlo-ventures, true-ventures — https://www.nectarsocial.com
+**Areas:** Company · Artificial Intelligence · Social Media · Community Management · Social Listening · Influencer Marketing · Customer Engagement · Social Commerce · MCP · Agents · Authentication
+
+## Nectar Social on APIs.io
+
+Everything profiled for Nectar Social is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/nectar-social/](https://apis.io/providers/nectar-social/)** — or go straight to one of the APIs or properties below.
+
+### APIs (2)
+
+- [Nectar Social MCP Server](https://apis.io/apis/nectar-social/nectar-social-mcp-server/) — Remote Model Context Protocol server exposing Nectar Social's social content and analytics to AI agents over JSON-RPC 2.0 (Streamable HTTP).…
+- [Nectar Social Platform API (Beta)](https://apis.io/apis/nectar-social/nectar-social-platform-api-beta/) — The OAuth 2.0 authorization server and platform REST API named by the MCP server's protected-resource metadata. Publishes 18 scopes covering content,…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Nectar Social Webhooks](https://apis.io/asyncapis/nectar-social/nectar-social-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [nectar-social](https://apis.io/servers/nectar-social/nectar-social/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Nectar Social Authentication](https://apis.io/security/nectar-social/nectar-social-authentication/)
+- [Nectar Social Domain Security](https://apis.io/security/nectar-social/nectar-social-domain-security/)
+- [Nectar Social Vulnerability Disclosure](https://apis.io/security/nectar-social/nectar-social-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Nectar Social Scopes](https://apis.io/scopes/nectar-social/nectar-social-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Nectar Social Plans Pricing](https://apis.io/plans/nectar-social/nectar-social-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Nectar Social Rate Limits](https://apis.io/rate-limits/nectar-social/nectar-social-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.nectarsocial.com)
+- [Blog](https://www.nectarsocial.com/company/news)
+- [Security](https://www.nectarsocial.com/.well-known/security.txt)
+- [Privacy policy](https://www.nectarsocial.com/privacy)
+
+## API Evangelist rating
+
+**Kin Score 28.9** — thin · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 39.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 13.2 |
+| Developer ergonomics | 14.3 |
+| Access clarity | 10.5 |
+
+**Agent readiness 50.0** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 33.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/nectar-social/](https://apis.io/providers/nectar-social/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Nectar Social: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/nectar-social/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
